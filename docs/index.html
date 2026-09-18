@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VACE API — Python client &amp; hosted endpoint</title>
+<meta name="description" content="Python client for VACE-style reference-to-video and video editing through a hosted API on Synexa">
+<link rel="canonical" href="https://vace-ai-dev.github.io/vace-api/"><meta name="google-site-verification" content="8NEKdWXBIiAKuN0mqEqYwTB3yB8iIW-_cQmXANbDTs8" /><meta name="msvalidate.01" content="91A75274D586670BEE99EC35A630C098">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is there a VACE API?", "acceptedAnswer": {"@type": "Answer", "text": "Not from Alibaba directly; VACE ships as model weights and a PyTorch repository. This package wraps hosted Synexa endpoints that provide the same reference-to-video and image-to-video capabilities, so you can call them over HTTPS without running the model."}}, {"@type": "Question", "name": "How much does the VACE API cost?", "acceptedAnswer": {"@type": "Answer", "text": "The default endpoint, kling/kling-motion-control, is $0.112 per run. The tongyi/wan2.2 image-to-video endpoint is $0.20 per run for a 5 second 480p clip. Billing is per completed run."}}, {"@type": "Question", "name": "Can I run VACE without a GPU?", "acceptedAnswer": {"@type": "Answer", "text": "Not locally; even the 1.3B model needs a CUDA GPU, and the 14B model needs a large one. With this client the generation happens on the hosted side, so any machine that can make an HTTPS request will do."}}, {"@type": "Question", "name": "Does this client work with the original ali-vilab VACE repo, Wan 2.1 or ComfyUI?", "acceptedAnswer": {"@type": "Answer", "text": "No. It does not load local weights, run the VACE preprocessors, or talk to the ComfyUI WanVideo VACE nodes. It is an HTTP client for the hosted endpoints only."}}, {"@type": "Question", "name": "What input formats does it accept?", "acceptedAnswer": {"@type": "Answer", "text": "For kling/kling-motion-control: reference_image is .jpg, .jpeg or .png up to 10 MB, 340 to 3850 px per side, aspect ratio between 1:2.5 and 2.5:1; reference_video is .mp4 or .mov up to 100 MB and 3 to 10 seconds. Both are required. For tongyi/wan2.2 you pass a prompt and an input_image, with optional aspect_ratio, num_frames and seed."}}, {"@type": "Question", "name": "Is this the official VACE SDK?", "acceptedAnswer": {"@type": "Answer", "text": "No. This is an independent client and is not affiliated with Alibaba or Tongyi Lab. The official project is at https://github.com/ali-vilab/VACE."}}]}</script>
+<style>
+:root{--ink:#16191d;--muted:#5b6470;--line:#e3e6ea;--accent:#2563eb;--bg:#fff}
+*{box-sizing:border-box}body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+main{max-width:860px;margin:0 auto;padding:48px 20px 80px}h1{font-size:34px;line-height:1.2;margin:0 0 12px}h2{font-size:22px;margin:40px 0 10px}
+.lead{font-size:18px;color:var(--muted)}.cta{display:inline-block;background:var(--accent);color:#fff;padding:12px 22px;border-radius:8px;font-weight:600;text-decoration:none;margin:12px 8px 12px 0}
+.ghost{display:inline-block;border:1px solid var(--line);padding:11px 20px;border-radius:8px;text-decoration:none;color:var(--ink)}
+pre{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:10px;overflow:auto;font-size:14px}code{font-family:ui-monospace,Menlo,monospace}
+details{border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px}
+</style></head><body><main>
+<h1>VACE API for Python</h1>
+<p class="lead">Python client for VACE-style reference-to-video and video editing through a hosted API on Synexa</p>
+<p><a class="cta" href="https://synexa.ai/explore/kling/kling-motion-control" rel="noopener">Run VACE in the browser →</a> <a class="ghost" href="https://github.com/vace-ai-dev/vace-api">View on GitHub</a></p>
+<h2>Install</h2>
+<pre><code>pip install git+https://github.com/vace-ai-dev/vace-api.git
+export SYNEXA_API_KEY="sk-..."</code></pre>
+<h2>Quickstart</h2>
+<pre><code>import vace_api
+
+output = vace_api.run({
+    "reference_image": "https://example.com/input.png",
+    "reference_video": "https://example.com/input.png"
+})
+print(output)</code></pre>
+<h2>Hosted models</h2>
+<ul><li><a href="https://synexa.ai/explore/kling/kling-motion-control" rel="noopener">kling/kling-motion-control</a> — Kling 3.0 motion control: transfer motion from a reference video to any character image with improved consistency and quality. <em>($0.112 / run)</em></li><li><a href="https://synexa.ai/explore/tongyi/wan2.2" rel="noopener">tongyi/wan2.2</a> — Generate 5s 480p videos using Wan 2.2 14B. A comprehensive video foundation models that pushes the boundaries of video generation. <em>($0.2 / run)</em></li></ul>
+<h2>About VACE</h2>
+<p>VACE is Alibaba Tongyi Lab's all-in-one video creation and editing framework: one diffusion transformer, built on Wan 2.1, that handles reference-to-video, video-to-video and masked editing through a single composable condition interface. This Python client gives you the same reference-driven video generation as a hosted API call, using Synexa's kling/kling-motion-control endpoint, plus Wan 2.2 image-to-video. One pip install, a blocking run() call, polling and webhooks, and per-run pricing instead of a dedicated GPU.</p>
+<h2>FAQ</h2>
+<details><summary>Is there a VACE API?</summary><p>Not from Alibaba directly; VACE ships as model weights and a PyTorch repository. This package wraps hosted Synexa endpoints that provide the same reference-to-video and image-to-video capabilities, so you can call them over HTTPS without running the model.</p></details><details><summary>How much does the VACE API cost?</summary><p>The default endpoint, kling/kling-motion-control, is $0.112 per run. The tongyi/wan2.2 image-to-video endpoint is $0.20 per run for a 5 second 480p clip. Billing is per completed run.</p></details><details><summary>Can I run VACE without a GPU?</summary><p>Not locally; even the 1.3B model needs a CUDA GPU, and the 14B model needs a large one. With this client the generation happens on the hosted side, so any machine that can make an HTTPS request will do.</p></details><details><summary>Does this client work with the original ali-vilab VACE repo, Wan 2.1 or ComfyUI?</summary><p>No. It does not load local weights, run the VACE preprocessors, or talk to the ComfyUI WanVideo VACE nodes. It is an HTTP client for the hosted endpoints only.</p></details><details><summary>What input formats does it accept?</summary><p>For kling/kling-motion-control: reference_image is .jpg, .jpeg or .png up to 10 MB, 340 to 3850 px per side, aspect ratio between 1:2.5 and 2.5:1; reference_video is .mp4 or .mov up to 100 MB and 3 to 10 seconds. Both are required. For tongyi/wan2.2 you pass a prompt and an input_image, with optional aspect_ratio, num_frames and seed.</p></details><details><summary>Is this the official VACE SDK?</summary><p>No. This is an independent client and is not affiliated with Alibaba or Tongyi Lab. The official project is at https://github.com/ali-vilab/VACE.</p></details>
+<p><a class="cta" href="https://synexa.ai/explore/kling/kling-motion-control" rel="noopener">Get an API key and run VACE →</a></p>
+<footer>Independent client for the hosted VACE endpoint on Synexa. Not affiliated with the model's authors. MIT licensed.</footer>
+</main></body></html>
