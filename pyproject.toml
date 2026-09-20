@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vace-api"
+version = "0.1.0"
+description = "Python client for VACE-style reference-to-video and video editing through a hosted API on Synexa"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [{name = "vace-ai-dev"}]
+keywords = ["ai api", "kling-motion-control", "synexa", "vace", "vace api", "vace python", "wan2.2"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["httpx>=0.24"]
+
+[project.urls]
+Homepage = "https://github.com/vace-ai-dev/vace-api"
+Documentation = "https://vace-ai-dev.github.io/vace-api/"
+"Hosted model" = "https://synexa.ai/explore/kling/kling-motion-control?utm_source=github&utm_medium=ugc&utm_campaign=vace-ai-dev&utm_content=pyproject&utm_term=tier-a"
+
+[tool.setuptools.packages.find]
+include = ["vace_api*"]
